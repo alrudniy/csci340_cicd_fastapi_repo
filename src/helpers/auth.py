@@ -4,7 +4,8 @@ from datetime import datetime, timedelta
 from fastapi import HTTPException, Security
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
-JWT_SECRET_KEY = config("JWT_SECRET_KEY")
+#JWT_SECRET_KEY = config("JWT_SECRET_KEY")
+JWT_SECRET_KEY = "my-32-character-ultra-secure-and-ultra-long-secret"
 
 
 class JwtAuthHelper:
