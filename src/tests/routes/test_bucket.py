@@ -100,3 +100,6 @@ def test_delete_bucket(client: TestClient, create_test_user_auth_header):
     assert response.status_code == 200, response.text
     response_data = response.json()
     assert "data" in response_data
+
+def new_test():
+    return
