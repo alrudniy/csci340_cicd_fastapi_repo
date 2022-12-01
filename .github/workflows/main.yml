@@ -68,5 +68,5 @@ jobs:
         git remote add heroku https://git.heroku.com/$HEROKU_APP_NAME
         echo "done - git remote add heroku https://git.heroku.com/$HEROKU_APP_NAME"
         echo "git push heroku HEAD:master -f"
-        git push heroku HEAD:master -f
+        git push heroku master
         echo "done - git push heroku HEAD:master -f"
