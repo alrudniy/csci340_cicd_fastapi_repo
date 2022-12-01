@@ -63,3 +63,7 @@ jobs:
       run: |
         ls
         echo "test"
+        echo "git remote add heroku https://git.heroku.com/$HEROKU_APP_NAME"
+        echo "https://heroku:$HEROKU_AUTH_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git"
+        echo "git push heroku HEAD:master -f"
+        
