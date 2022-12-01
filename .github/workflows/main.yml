@@ -58,14 +58,14 @@ jobs:
       # echo $HEROKU_APP_NAME
       # echo $HEROKU_AUTH_TOKEN
       #git remote add heroku https://git.heroku.com/$HEROKU_APP_NAME
-      #https://heroku:$HEROKU_AUTH_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git
+      #git remote add heroku https://heroku:$HEROKU_AUTH_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git
       # echo "https://heroku:$HEROKU_AUTH_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git"
       #git push heroku HEAD:master -f
       run: |
         ls
         echo "test"
         echo "git remote add heroku https://git.heroku.com/$HEROKU_APP_NAME"
-        git remote add heroku https://git.heroku.com/$HEROKU_APP_NAME.git
+        git remote add heroku https://heroku:$HEROKU_AUTH_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git
         echo "done - git remote add heroku https://git.heroku.com/$HEROKU_APP_NAME"
         echo "git push heroku HEAD:master -f"
         git push heroku master
