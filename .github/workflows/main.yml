@@ -67,3 +67,4 @@ jobs:
         echo "https://heroku:$HEROKU_AUTH_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git"
         echo "git push heroku HEAD:master -f"
         
+        
