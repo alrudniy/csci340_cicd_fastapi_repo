@@ -10,7 +10,7 @@ env:
   IMAGE_NAME: gcr.io/$PROJECT_ID/app
   JWT_SECRET_KEY: my-32-character-ultra-secure-and-ultra-long-secret
   SERVICE_ACCOUNT: github-actions-service-account
-  WORKLOAD_IDENTITY_PROVIDER_LOCATION: projects/1016062054874/locations/global/workloadIdentityPools/gh-pool/providers/gh-provider
+  WORKLOAD_IDENTITY_PROVIDER_LOCATION: "projects/1016062054874/locations/global/workloadIdentityPools/gh-pool/providers/gh-provider"
  
 on: 
   #Trigger the workflow on a push event to YourBranchName branch only
@@ -52,12 +52,12 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
-
+      
     - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v0
         with:
           # Replace with your Workload Identity Provider Location
-          workload_identity_provider: "${{ env.WORKLOAD_IDENTITY_PROVIDER_LOCATION }}"
+          workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER_LOCATION }}
           # Replace with your GitHub Service Account
           service_account: ${{ env.SERVICE_ACCOUNT }}@${{ env.PROJECT_ID }}.iam.gserviceaccount.com"
 
