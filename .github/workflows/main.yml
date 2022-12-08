@@ -15,7 +15,7 @@ env:
 on: 
   #Trigger the workflow on a push event to the master branch only
   push: 
-    branches: ${{ env.GITHUB_BRANCH }}
+    branches: [YourBranchName]
 
 #A workflow job running sequentially
 jobs:
