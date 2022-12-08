@@ -4,15 +4,17 @@ from fastapi import HTTPException, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routes import auth as auth_router, bucket as bucket_router, user as user_router
 
+
+# https://simiokunowo.netlify.app
 Base.metadata.create_all(bind=engine)
 app = FastAPI(
     title="Demo FastAPI and Github actions app",
     version="0.01",
     description="A FastAPI app deployed to Heroku with a Github actions CI/CD pipeline.",
     contact={
-        "name": "Similoluwa Okunowo",
-        "url": "https://simiokunowo.netlify.app",
-        "email": "rexsimiloluwa@gmail.com",
+        "name": "CSCI 340",
+        "url": "https://drew.edu",
+        "email": "info@drew.edu",
     },
 )
 
