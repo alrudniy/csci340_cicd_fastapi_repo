@@ -31,6 +31,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_credentials=True,
 )
-
+# allow all IPs to access the app on port 8080
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8080, reload=True)
