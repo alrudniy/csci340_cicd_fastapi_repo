@@ -82,6 +82,7 @@ jobs:
       name: Deploy Docker image
       uses: "google-github-actions/deploy-cloudrun@v0"
       with:
+        context: .
         image: ${{ env.IMAGE_NAME }}
         region: us-east5
         service: app
