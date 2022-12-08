@@ -7,7 +7,7 @@ name: fastapi-github-actions-test
 env:
   #Replace $PROJECT_ID with your project ID
   PROJECT_ID: drew-2022-10
-  IMAGE_NAME: gcr.io/$PROJECT_ID/app
+  IMAGE_NAME: gcr.io/drew-2022-10/app
   JWT_SECRET_KEY: my-32-character-ultra-secure-and-ultra-long-secret
   SERVICE_ACCOUNT: github-actions-service-account
   WORKLOAD_IDENTITY_PROVIDER_LOCATION: "projects/1016062054874/locations/global/workloadIdentityPools/gh-pool/providers/gh-provider"
@@ -76,7 +76,7 @@ jobs:
       run: docker build . -t ${{ env.IMAGE_NAME }}
 
     - name: Push Docker image
-      run: docker push ${{ env.IMAGE_NAME }} --remove-signatures
+      run: docker push ${{ env.IMAGE_NAME }}
 
     - id: deploy
       name: Deploy Docker image
