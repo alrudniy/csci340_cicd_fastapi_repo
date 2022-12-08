@@ -59,7 +59,7 @@ jobs:
           # Replace with your Workload Identity Provider Location
           workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER_LOCATION }}
           # Replace with your GitHub Service Account
-          service_account: ${{ env.SERVICE_ACCOUNT }}@${{ env.PROJECT_ID }}.iam.gserviceaccount.com"
+          service_account: ${{ env.SERVICE_ACCOUNT }}@${{ env.PROJECT_ID }}.iam.gserviceaccount.com
 
     - name: Configure Docker
       run: gcloud auth configure-docker --quiet
