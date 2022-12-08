@@ -87,6 +87,6 @@ jobs:
         service: app
         flags: --port=8080 --allow-unauthenticated
 
-    # Example of using the output t
+    # Example of using the output
     - name: Test URL
       run: curl "${{ steps.deploy.outputs.url }}"
