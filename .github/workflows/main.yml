@@ -5,15 +5,15 @@ name: fastapi-github-actions-test
 
 # set variables that are used below
 env:
-  GCLOUD_APP_NAME: csci340-fast-api
-  GCLOUD_AUTH: -----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC1hwlmxFuSgbiQ\nHP3vvMGI9ptyZ/02W4zFuoksD/K6NlRIFkoqmk5fKy/WinGe+QI0PQLLnn1a6cSl\nvTpQVqwwGEr+bE9vlqJJmm1zvdehw0gP7pMIL4ok/ndCGz9SaWOd279+T0b1vpsK\nuBJ61aowfPbOpZwNPAmggkz9mfNmgAnk2IyP4SCnoseRpLC27W67b+/tpMNYNLhM\nttNaIdav5kQgs1Y0EKQTqyPhJZJAJjOHW6Y/dlTkTFMDj9x47cnsj2etWxeHEcuu\nXX3GvAYK26CHPlDOYJaukp0eJLf8r+BZXmYPA5dL+eLM89oL5wqTM5S8S7xFjC71\nW8Hr0oblAgMBAAECggEAQXIqBY8NpMh4Dh0lwGVBMWwXpyuuswZWvoL+KZCmZlRo\nFoVSwAFZ+B3N5X+Mb1A/Zy4H7/l4IGrfpxGOEKDu+3gGsavDB+w7HmY6x9vN/lg1\nhujwwabCG4xS2taQAdpVO/iaFaPnZXoO09KBdx/JeCnVobM7i9n1bpULxPLYOj+a\nXt2P8ZVGLbe02gfpiOJn5TqQf6i53rizQC9LS5hAm6BOmVxfNRNYjMk4g994rXo4\ne+DQfy8sgqaNc3+2oI80aNGxOLLjhn/UJEJSplFT9X4xPQrzHPAYTkGJlq42GnB3\nGxHzyxssPycOStfrLlNrShZBUx9oWNKeHUuDsoDukQKBgQD3vflOGLYDuxNPEKK5\nTZU5ZgXE6lJfskVMd0IgibDVAv+rxVF+CCwYWvnGipRlHnZEURKDcQxUymuRh30P\no9vd7hfK+qo+ue/rNN0dBFEoYJJUVSwjChFjDxdomDii058SmNLy5C7a8eWCigNO\nrsPB3aLl1xjNQqCernZQmWrWHwKBgQC7lArP4Ai/imv996j0PToJTkfTRZ3IEbu9\nj3rmyf0pKHLbg3Aj0xunli0gAKCOMwjX9b2gJBkBE/58HvhMHUCACatK75SASgpm\n8+fhxV1c62aQl4YxqyNqmAzpHKfF2BTndPN5cJ32h7j1q/fNpbOVW8tpwW/UcUVf\nTjPq83GaewKBgQCKKIOTrewzgGxwN1LIDCAf9mlZO2PcwkorLobOJntbD2UNoeik\nZGJS4slQk4/WJHrH9n5glvbNgmUir3Bq/HJs/Y5/P/MZMBBAFycIO5QW9GQma6lF\nkSPJHm1rgxhylZmsgVWC5wXKTAQ2HElj48p/nt5tVtsZ/QId/CU3JZeS+QKBgEh3\npkGvFNIjARup3X0WVmCX/ImzwIQ1zakrUFjvOj33YYBK5D0C5xE0pJRTibPGJamB\nR9QhfgN7nPqI4HZPasbMdX/K1T1G3YPuwOvpWut2CjbcQzzXGCSrP3mj13FIzLKq\n7RFCn9RJlPxchqzNUnbmcsyVrcWOSTXLuaUQjhgXAoGBAPMYm+bxlCNZ4KrM3r0+\nPSaIUgDRyRliXbujxMfAV77N8f8bHCJ1ykguAwKf3fnPu2CWm2vJ4W4ARZYmbkck\nVMBHgC0rhBm3nxAYDYRJs/tk8Oh+r0k/RvfsGoL91AS+tDi+JDZm2Bil8uGM/TlR\nCrERAjJpcJfvMgm+jpFfs3J8\n-----END PRIVATE KEY-----\n
-  GCLOUD_PROJECT: drew-2022-10-04
-  GCLOUD_EMAIL: csci340@drew-2022-10.iam.gserviceaccount.com  
+  #Replace $PROJECT_ID with your project ID
+  PROJECT_ID: drew-2022-10
+  IMAGE_NAME: gcr.io/$PROJECT_ID/app
   JWT_SECRET_KEY: my-32-character-ultra-secure-and-ultra-long-secret
-  GITHUB_BRANCH: YourBranchName
-
+  SERVICE_ACCOUNT: github-actions-service-account
+  WORKLOAD_IDENTITY_PROVIDER_LOCATION: projects/1016062054874/locations/global/workloadIdentityPools/gh-pool/providers/gh-provider
+ 
 on: 
-  #Trigger the workflow on a push event to the master branch only
+  #Trigger the workflow on a push event to YourBranchName branch only
   push: 
     branches: [YourBranchName]
 
@@ -50,29 +50,35 @@ jobs:
     
     # Task for testing with pytest
     - name: Test with pytest
-      env:
-        # Uses the JWT_SECRET_KEY env variable from the Github actions secrets
-        JWT_SECRET_KEY : ${{ env.JWT_SECRET_KEY }}
       run: |
         pytest
 
+    - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v0
+        with:
+          # Replace with your Workload Identity Provider Location
+          workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER_LOCATION }}
+          # Replace with your GitHub Service Account
+          service_account: ${{ env.SERVICE_ACCOUNT }}@${{ env.PROJECT_ID }}.iam.gserviceaccount.com"
+
+    - name: Configure Docker
+      run: gcloud auth configure-docker --quiet
+
     - name: Build Docker image
-      run: |
-        docker build . --tag eu.gcr.io/${{ env.GCLOUD_PROJECT }}/${{ env.GCLOUD_APP_NAME }}
-    - name: Authenticate into Google Cloud Platform
-      uses: GoogleCloudPlatform/github-actions/setup-gcloud@YourBranchName
+      run: docker build . -t ${{ env.IMAGE_NAME }}
+
+    - name: Push Docker image
+      run: docker push ${{ env.IMAGE_NAME }}
+
+    - id: deploy
+      name: Deploy Docker image
+      uses: "google-github-actions/deploy-cloudrun@v0"
       with:
-        service_account_email: ${{ env.GCLOUD_EMAIL }}
-        service_account_key: ${{ env.GCLOUD_AUTH }}
+        image: ${{ env.IMAGE_NAME }}
+        region: us-central1
+        service: app
+        flags: --port=8080
 
-    - name: Configure Docker to use Google Cloud Platform
-      run: "gcloud auth configure-docker --quiet"
-
-    - name: Push image to Google Cloud Container Registry
-      run: docker push eu.gcr.io/${{ env.GCLOUD_PROJECT }}/${{ env.GCLOUD_APP_NAME }}
-
-    - name: Install beta commands and deploy on cloud run
-      run: |
-        gcloud components install beta --quiet
-        gcloud beta run deploy ${{ env.GCLOUD_APP_NAME }} --quiet --image eu.gcr.io/${{ env.GCLOUD_PROJECT }}/${{ env.GCLOUD_APP_NAME }} --project ${{ env.GCLOUD_PROJECT }} --region europe-west1 --platform managed
-  
+    # Example of using the output
+    - name: Test URL
+      run: curl "${{ steps.deploy.outputs.url }}"
