@@ -10,11 +10,12 @@ env:
   GCLOUD_PROJECT: drew-2022-10-04
   GCLOUD_EMAIL: csci340@drew-2022-10.iam.gserviceaccount.com  
   JWT_SECRET_KEY: my-32-character-ultra-secure-and-ultra-long-secret
+  GITHUB_BRANCH: YourBranchName 
 
 on: 
   #Trigger the workflow on a push event to the master branch only
   push: 
-    branches: [YourBranchName]
+    branches: [${{ env.GITHUB_BRANCH }}]
 
 #A workflow job running sequentially
 jobs:
@@ -59,7 +60,7 @@ jobs:
       run: |
         docker build . --tag eu.gcr.io/${{ env.GCLOUD_PROJECT }}/${{ env.GCLOUD_APP_NAME }}
     - name: Authenticate into Google Cloud Platform
-      uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      uses: GoogleCloudPlatform/github-actions/setup-gcloud@${{ env.GITHUB_BRANCH }}
       with:
         service_account_email: ${{ env.GCLOUD_EMAIL }}
         service_account_key: ${{ env.GCLOUD_AUTH }}
