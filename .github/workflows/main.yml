@@ -54,6 +54,10 @@ jobs:
         pytest
       
     - name: Authenticate to Google Cloud
+        env:
+          SERVICE_ACCOUNT: github-actions-service-account
+          WORKLOAD_IDENTITY_PROVIDER_LOCATION: "projects/1016062054874/locations/global/workloadIdentityPools/gh-pool/providers/gh-provider"
+          PROJECT_ID: drew-2022-10
         uses: google-github-actions/auth@v0
         with:
           # Replace with your Workload Identity Provider Location
