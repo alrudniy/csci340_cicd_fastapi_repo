@@ -82,11 +82,10 @@ jobs:
       name: Deploy Docker image
       uses: "google-github-actions/deploy-cloudrun@v0"
       with:
-        context: .
         image: ${{ env.IMAGE_NAME }}
         region: us-east5
         service: app
-        flags: --port=8080
+        flags: --port=8080 --allow-unauthenticated
 
     # Example of using the output
     - name: Test URL
