@@ -19,6 +19,10 @@ on:
 
 #A workflow job running sequentially
 jobs:
+   # Need to add these 3 lines to add "id-token" with the intended permissions.
+  permissions:
+    contents: 'read'
+    id-token: 'write'
   build:
     #runs-on: defines The workflow runner
     runs-on: ubuntu-latest 
