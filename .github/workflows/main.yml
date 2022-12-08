@@ -60,7 +60,7 @@ jobs:
       run: |
         docker build . --tag eu.gcr.io/${{ env.GCLOUD_PROJECT }}/${{ env.GCLOUD_APP_NAME }}
     - name: Authenticate into Google Cloud Platform
-      uses: GoogleCloudPlatform/github-actions/setup-gcloud@${{ env.GITHUB_BRANCH }}
+      uses: GoogleCloudPlatform/github-actions/setup-gcloud@$YourBranchName
       with:
         service_account_email: ${{ env.GCLOUD_EMAIL }}
         service_account_key: ${{ env.GCLOUD_AUTH }}
