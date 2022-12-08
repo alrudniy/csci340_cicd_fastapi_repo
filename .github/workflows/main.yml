@@ -10,7 +10,7 @@ env:
   GCLOUD_PROJECT: drew-2022-10-04
   GCLOUD_EMAIL: csci340@drew-2022-10.iam.gserviceaccount.com  
   JWT_SECRET_KEY: my-32-character-ultra-secure-and-ultra-long-secret
-  GITHUB_BRANCH: YourBranchName 
+  GITHUB_BRANCH: YourBranchName
 
 on: 
   #Trigger the workflow on a push event to the master branch only
