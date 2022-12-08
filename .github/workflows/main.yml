@@ -73,7 +73,7 @@ jobs:
       run: gcloud auth configure-docker --quiet
 
     - name: Build Docker image
-      run: docker build . -t ${{ env.IMAGE_NAME }} --format docker
+      run: docker build . -t ${{ env.IMAGE_NAME }}
 
     - name: Push Docker image
       run: docker push ${{ env.IMAGE_NAME }} --remove-signatures
